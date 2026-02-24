@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Club Mini App</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        :root {
+            --bg-color: #0d0d12;
+            --card-bg: #1a1a24;
+            --accent-color: #00f2ff; /* Неоновый голубой */
+            --text-color: #ffffff;
+            --secondary-text: #94a3b8;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        h2 { color: var(--accent-color); border-bottom: 2px solid var(--accent-color); padding-bottom: 5px; }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 15px;
+            border: 1px solid #333;
+            box-shadow: 0 4px 15px rgba(0, 242, 255, 0.1);
+        }
+
+        .promo-tag {
+            color: var(--accent-color);
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        button {
+            background: var(--accent-color);
+            color: #000;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-weight: bold;
+            width: 100%;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+
+        button:active { opacity: 0.8; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1 style="font-size: 24px;">CYBER ARENA</h1>
+        <p style="color: var(--secondary-text);">Добро пожаловать, <span id="user-name">Геймер</span>!</p>
+    </header>
+
+    <section id="promos">
+        <h2>🔥 Акции</h2>
+        <div class="card">
+            <span class="promo-tag">НОЧНОЙ ПАКЕТ</span>
+            <p>С 22:00 до 08:00 всего за 500₽</p>
+        </div>
+    </section>
+
+    <section id="tournaments">
+        <h2>🏆 Турниры</h2>
+        <div class="card">
+            <h3>Dota 2: 5x5 Mixed</h3>
+            <p style="font-size: 14px; color: var(--secondary-text);">Дата: 25 октября | Приз: 10 000₽</p>
+            <button onclick="register('Dota 2')">Записаться</button>
+        </div>
+    </section>
+
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.expand(); // Развернуть на весь экран
+
+        // Приветствие по имени из Telegram
+        if (tg.initDataUnsafe?.user) {
+            document.getElementById('user-name').innerText = tg.initDataUnsafe.user.first_name;
+        }
+
+        function register(game) {
+            tg.showConfirm(`Вы хотите записаться на турнир по ${game}?`, (confirmed) => {
+                if (confirmed) {
+                    tg.sendData(`record_tournament_${game}`); // Отправляет данные боту
+                    tg.close();
+                }
+            });
+        }
+    </script>
+</body>
+</html>
