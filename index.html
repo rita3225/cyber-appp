@@ -204,15 +204,15 @@
         // ОТПРАВКА ДАННЫХ И АВТОРИЗАЦИЯ
 function sendRequest() {
     const title = document.getElementById('d-title').innerText;
-    
-    // 1. Кодируем название (заменяем пробелы на специальные символы для ссылки)
-    const encodedTitle = encodeURIComponent(title);
-    
-    // 2. Ссылка на твоего бота (УБЕДИСЬ, ЧТО ЮЗЕРНЕЙМ ВЕРНЫЙ)
-    const botUsername = "Colizeum_Club_bot"; 
-    const url = `https://t.me/${botUsername}?start=reg_${encodedTitle}`;
 
-    // 3. Просто открываем ссылку (это сработает мгновенно)
+    // Делаем безопасный payload
+    const safeTitle = title
+        .replace(/\s+/g, "_")
+        .replace(/[^\w_]/g, "");
+
+    const botUsername = "Colizeum_Club_bot";
+    const url = `https://t.me/${botUsername}?start=reg_${safeTitle}`;
+
     tg.openTelegramLink(url);
     tg.close();
 }
