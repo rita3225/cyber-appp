@@ -202,22 +202,19 @@
         }
 
         // ОТПРАВКА ДАННЫХ И АВТОРИЗАЦИЯ
-   function sendRequest() {
+function sendRequest() {
     const title = document.getElementById('d-title').innerText;
     
-    // Кодируем название турнира, чтобы в ссылке не было пробелов
+    // 1. Кодируем название (заменяем пробелы на специальные символы для ссылки)
     const encodedTitle = encodeURIComponent(title);
     
-    // Ссылка на твоего бота. Замени Colizeum_Club_bot на свой юзернейм бота
+    // 2. Ссылка на твоего бота (УБЕДИСЬ, ЧТО ЮЗЕРНЕЙМ ВЕРНЫЙ)
     const botUsername = "Colizeum_Club_bot"; 
     const url = `https://t.me/${botUsername}?start=reg_${encodedTitle}`;
 
-    tg.showConfirm(`Перейти в чат с ботом для завершения регистрации на "${title}"?`, (confirmed) => {
-        if (confirmed) {
-            tg.openTelegramLink(url); // Открывает чат с ботом
-            tg.close(); // Закрывает Mini App
-        }
-    });
+    // 3. Просто открываем ссылку (это сработает мгновенно)
+    tg.openTelegramLink(url);
+    tg.close();
 }
         // Инициализация
         render('all');
