@@ -202,19 +202,23 @@
         }
 
         // ОТПРАВКА ДАННЫХ И АВТОРИЗАЦИЯ
-        function sendRequest() {
-            const title = document.getElementById('d-title').innerText;
-            
-            // Telegram Pop-up для подтверждения
-            tg.showConfirm(`Вы хотите оставить заявку на "${title}"? Мы попросим вас подтвердить номер телефона в чате с ботом.`, (confirmed) => {
-                if (confirmed) {
-                    // Отправляем спец-код боту, чтобы он включил запрос телефона
-                    tg.sendData("REG_TOURNEY:" + title);
-                    tg.close();
-                }
-            });
-        }
+   function sendRequest() {
+    const title = document.getElementById('d-title').innerText;
+    
+    // Кодируем название турнира, чтобы в ссылке не было пробелов
+    const encodedTitle = encodeURIComponent(title);
+    
+    // Ссылка на твоего бота. Замени Colizeum_Club_bot на свой юзернейм бота
+    const botUsername = "Colizeum_Club_bot"; 
+    const url = `https://t.me/${botUsername}?start=reg_${encodedTitle}`;
 
+    tg.showConfirm(`Перейти в чат с ботом для завершения регистрации на "${title}"?`, (confirmed) => {
+        if (confirmed) {
+            tg.openTelegramLink(url); // Открывает чат с ботом
+            tg.close(); // Закрывает Mini App
+        }
+    });
+}
         // Инициализация
         render('all');
     </script>
